@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "log_bucket" {
 }
 
 resource "aws_alb_target_group" "target_group" {
-  name                 = "${var.alb_name}-tg"
+  name_prefix          = "${var.alb_name}-tg-"
   port                 = "${var.backend_port}"
   protocol             = "${upper(var.backend_protocol)}"
   vpc_id               = "${var.vpc_id}"
@@ -49,6 +49,10 @@ resource "aws_alb_target_group" "target_group" {
   }
 
   tags = "${merge(var.tags, map("Name", format("%s-tg", var.alb_name)))}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_alb_listener" "frontend_http" {
