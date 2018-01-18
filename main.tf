@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "log_bucket" {
 }
 
 resource "aws_alb_target_group" "target_group" {
-  name_prefix          = "${var.alb_name}-tg-"
+  name                 = "${var.alb_name}-tg-"
   port                 = "${var.backend_port}"
   protocol             = "${upper(var.backend_protocol)}"
   vpc_id               = "${var.vpc_id}"
